@@ -1,0 +1,42 @@
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Environment files
+.env
+.env.development
+.env.production
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Git
+.git/
+.gitignore
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+
+# Database
+*.db
+*.sqlite3
+
+# Docker
+docker-compose.yml
+Dockerfile
+.dockerignore
