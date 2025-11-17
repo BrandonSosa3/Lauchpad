@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import get_settings
+from app.routers import auth, modules, tasks, progress
 
 settings = get_settings()
 
@@ -20,13 +21,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Include routers
+app.include_router(auth.router, prefix="/api/v1")
+app.include_router(modules.router, prefix="/api/v1")
+app.include_router(tasks.router, prefix="/api/v1")
+app.include_router(progress.router, prefix="/api/v1")
+
 
 @app.get("/")
 def root():
     return {
         "message": "Welcome to Launchpad API",
         "environment": settings.ENVIRONMENT,
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "docs": "/docs"
     }
 
 
