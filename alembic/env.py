@@ -11,8 +11,16 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from app.config import get_settings
 from app.database import Base
 
-# Import models here as you create them
-# from app.models.user import User
+# Import ALL models so Alembic can detect them
+from app.models import (
+    User,
+    Module,
+    Task,
+    UserTaskProgress,
+    Guide,
+    GuideView,
+    RefreshToken
+)
 
 config = context.config
 
@@ -27,6 +35,7 @@ target_metadata = Base.metadata
 
 
 def run_migrations_offline() -> None:
+    """Run migrations in 'offline' mode."""
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url,
@@ -40,6 +49,7 @@ def run_migrations_offline() -> None:
 
 
 def run_migrations_online() -> None:
+    """Run migrations in 'online' mode."""
     connectable = engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
