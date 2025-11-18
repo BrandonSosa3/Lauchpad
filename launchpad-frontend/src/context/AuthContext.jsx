@@ -36,15 +36,12 @@ export function AuthProvider({ children }) {
     const response = await authApi.login(email, password);
     console.log('✅ Login response:', response);
     
-    // Store token and user data
-    console.log('💾 Storing token:', response.access_token.substring(0, 20));
     localStorage.setItem('token', response.access_token);
     localStorage.setItem('user', JSON.stringify(response.user));
     
     console.log('✅ Token stored, setting user state');
     setUser(response.user);
     
-    // Verify it was stored
     console.log('🔍 Verify token in localStorage:', localStorage.getItem('token')?.substring(0, 20));
   };
 
@@ -53,15 +50,12 @@ export function AuthProvider({ children }) {
     const response = await authApi.signup(email, password, name);
     console.log('✅ Signup response:', response);
     
-    // Store token and user data
-    console.log('💾 Storing token:', response.access_token.substring(0, 20));
     localStorage.setItem('token', response.access_token);
     localStorage.setItem('user', JSON.stringify(response.user));
     
     console.log('✅ Token stored, setting user state');
     setUser(response.user);
     
-    // Verify it was stored
     console.log('🔍 Verify token in localStorage:', localStorage.getItem('token')?.substring(0, 20));
   };
 
@@ -76,7 +70,7 @@ export function AuthProvider({ children }) {
   console.log('🔍 Current user state:', user);
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, signup, logout, loading, isAuthenticated: !!user }}>
       {children}
     </AuthContext.Provider>
   );

@@ -16,88 +16,162 @@ export default function RegisterPage() {
   const handleSignup = async () => {
     setLoading(true);
     setError('');
-    console.log('🎯 BUTTON CLICKED - STAYING ON PAGE');
-  
+
     try {
       await signup(formData.email, formData.password, formData.name);
-      console.log('✅ SIGNUP SUCCESS - NOT NAVIGATING');
-      alert('Signup successful! Check console.');
-      // DON'T NAVIGATE - just stay here
-      // navigate('/dashboard');
+      navigate('/dashboard');
     } catch (err) {
-      console.error('❌ SIGNUP FAILED:', err);
       setError(err.response?.data?.detail || 'Registration failed');
+      setLoading(false);
     }
-    setLoading(false);
+  };
+
+  const styles = {
+    container: {
+      minHeight: '100vh',
+      background: 'var(--bg)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '20px',
+    },
+    wrapper: {
+      width: '100%',
+      maxWidth: '450px',
+    },
+    header: {
+      textAlign: 'center',
+      marginBottom: '48px',
+    },
+    title: {
+      fontSize: '24px',
+      fontWeight: '700',
+      color: 'var(--text)',
+      marginBottom: '12px',
+    },
+    subtitle: {
+      fontSize: '16px',
+      color: 'var(--muted)',
+    },
+    card: {
+      background: 'var(--card)',
+      borderRadius: 'var(--radius)',
+      boxShadow: 'var(--shadow)',
+      padding: '32px',
+    },
+    error: {
+      marginBottom: '24px',
+      padding: '16px',
+      borderRadius: 'var(--radius)',
+      background: '#fef2f2',
+      border: '1px solid #fecaca',
+      fontSize: '14px',
+      color: '#dc2626',
+    },
+    inputGroup: {
+      marginBottom: '20px',
+    },
+    label: {
+      display: 'block',
+      fontSize: '14px',
+      fontWeight: '500',
+      color: 'var(--text)',
+      marginBottom: '8px',
+    },
+    input: {
+      width: '100%',
+      padding: '12px 16px',
+      borderRadius: 'var(--radius)',
+      border: '1px solid #e5e5e5',
+      fontSize: '15px',
+      background: 'var(--bg)',
+      color: 'var(--text)',
+      outline: 'none',
+    },
+    button: {
+      width: '100%',
+      padding: '12px',
+      background: 'var(--primary)',
+      color: '#fff',
+      border: 'none',
+      borderRadius: 'var(--radius)',
+      fontSize: '15px',
+      fontWeight: '500',
+      cursor: 'pointer',
+    },
+    footer: {
+      textAlign: 'center',
+      marginTop: '24px',
+      fontSize: '14px',
+      color: 'var(--muted)',
+    },
+    link: {
+      color: 'var(--primary)',
+      fontWeight: '500',
+      textDecoration: 'none',
+    },
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold">🚀 Launchpad</h1>
-          <p className="text-gray-600 mt-2">Create your account</p>
+    <div style={styles.container}>
+      <div style={styles.wrapper}>
+        <div style={styles.header}>
+          <h1 style={styles.title}>Launchpad</h1>
+          <p style={styles.subtitle}>Start your journey</p>
         </div>
 
-        <div className="bg-white p-8 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-6">Sign Up</h2>
+        <div style={styles.card}>
+          {error && <div style={styles.error}>{error}</div>}
 
-          <div className="space-y-4">
-            {error && (
-              <div className="p-3 rounded-lg bg-red-50 border border-red-200">
-                <p className="text-sm text-red-600">{error}</p>
-              </div>
-            )}
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={(e) => setFormData(prev => ({...prev, name: e.target.value}))}
-                className="w-full px-4 py-2 border rounded-lg"
-                placeholder="Your name"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={(e) => setFormData(prev => ({...prev, email: e.target.value}))}
-                className="w-full px-4 py-2 border rounded-lg"
-                placeholder="your@email.com"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={(e) => setFormData(prev => ({...prev, password: e.target.value}))}
-                className="w-full px-4 py-2 border rounded-lg"
-                placeholder="Min 8 characters"
-              />
-            </div>
-
-            <button
-              type="button"
-              onClick={handleSignup}
-              disabled={loading}
-              className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
-            >
-              {loading ? 'Creating...' : 'Create Account'}
-            </button>
-
-            <div className="text-center">
-              <Link to="/login" className="text-blue-600">Already have an account? Sign in</Link>
-            </div>
+          <div style={styles.inputGroup}>
+            <label style={styles.label}>Name</label>
+            <input
+              type="text"
+              value={formData.name}
+              onChange={(e) => setFormData(prev => ({...prev, name: e.target.value}))}
+              style={styles.input}
+              placeholder="Your name"
+            />
           </div>
+
+          <div style={styles.inputGroup}>
+            <label style={styles.label}>Email</label>
+            <input
+              type="email"
+              value={formData.email}
+              onChange={(e) => setFormData(prev => ({...prev, email: e.target.value}))}
+              style={styles.input}
+              placeholder="your@email.com"
+            />
+          </div>
+
+          <div style={styles.inputGroup}>
+            <label style={styles.label}>Password</label>
+            <input
+              type="password"
+              value={formData.password}
+              onChange={(e) => setFormData(prev => ({...prev, password: e.target.value}))}
+              style={styles.input}
+              placeholder="Min 8 characters"
+              minLength={8}
+            />
+          </div>
+
+          <button
+            type="button"
+            onClick={handleSignup}
+            disabled={loading}
+            style={{...styles.button, opacity: loading ? 0.5 : 1}}
+            onMouseOver={(e) => e.target.style.opacity = loading ? 0.5 : 0.9}
+            onMouseOut={(e) => e.target.style.opacity = loading ? 0.5 : 1}
+          >
+            {loading ? 'Creating account...' : 'Create account'}
+          </button>
+
+          <p style={styles.footer}>
+            Already have an account?{' '}
+            <Link to="/login" style={styles.link}>Sign in</Link>
+          </p>
         </div>
       </div>
     </div>
